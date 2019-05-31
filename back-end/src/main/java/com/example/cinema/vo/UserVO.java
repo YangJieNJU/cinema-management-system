@@ -46,8 +46,9 @@ public class UserVO {
         this.roles.add("");
         if(username.equals("root")) {
             this.roles.add("admin");
+        } else {
+            this.roles.add("editor");
         }
-        this.roles.add("editor");
     }
 
     public String getPassword() {
