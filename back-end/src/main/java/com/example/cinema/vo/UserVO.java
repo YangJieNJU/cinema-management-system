@@ -44,6 +44,9 @@ public class UserVO {
 
     public void setRoles(List<String> roles) {
         this.roles.add("");
+        if(username.equals("root")) {
+            this.roles.add("admin");
+        }
         this.roles.add("editor");
     }
 
