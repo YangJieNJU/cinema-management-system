@@ -23,7 +23,7 @@
             height="25px"
             >
             <el-row style="height: 100%" :gutter="20">
-              <el-col :span="2">
+              <el-col :span="4">
                 <el-link type="primary">
                   <router-link :to="{ path: '/movie/detail', query: { movieId: movie.id }}">
                     <span class="detail right-align">{{ movie.name }}</span>
@@ -34,12 +34,12 @@
                 :span="2"
                 >
                 <el-link
-                  :type="movie.status == 1 ? 'primary' : 'danger'"
+                  :type="movie.status == 1 ? 'info' : 'danger'"
                   >
                   {{ movie.status == 1 ? '热映中' : '已下架' }}
                 </el-link>
               </el-col>
-              <el-col :span="1" :offset="17">
+              <el-col :span="1" :offset="15">
                 <el-rate
                   v-model="movie.islike"
                   :max="1"
@@ -48,7 +48,7 @@
                   >
                 </el-rate>
               </el-col>
-              <el-col :span="2"> <span class="right-align">{{ movie.likeCount }}人想看</span></el-col>
+              <el-col :span="2"> <span class="right-align">{{ movie.likeCount || 0 }}人想看</span></el-col>
             </el-row>
           </el-header>
           <el-main
@@ -59,14 +59,13 @@
             </span>
           </el-main>
           <el-footer
-            style="padding: 0px; margin: 5px 0; width: 96%"
-            height="34px"
-            class="footer"
+            style="padding: 0px; margin: 10px 0 0 0; width: 99%"
+            height="20px"
           >
             <el-row style="height: 100%">
               <el-col :span="8"> 导演：{{ movie.director }}</el-col>
-              <el-col :span="12"> 主演：{{ movie.starring }}</el-col>
-              <el-col :span="4">
+              <el-col :span="14"> 主演：{{ movie.starring }}</el-col>
+              <el-col :span="2">
                 <router-link :to="{ path: '/movie/detail', query: { movieId: movie.id }}">
                   <span class="detail right-align">详情</span>
                 </router-link>

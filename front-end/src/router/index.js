@@ -144,6 +144,7 @@ export const asyncRoutes = [
         path: 'detail',
         name: 'MovieDetail',
         component: () => import('@/views/movie/detail'),
+        hidden: true,
         meta: { title: '电影详情', icon: 'movie' }
       }
     ]
