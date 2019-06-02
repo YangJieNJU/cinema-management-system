@@ -128,12 +128,23 @@ export const asyncRoutes = [
     path: '/movie',
     component: Layout,
     redirect: '/movie/index',
+    meta: {
+      icon: 'movie',
+      roles: ['editor']
+    },
     children: [
       {
         path: 'index',
         name: 'Movie',
         component: () => import('@/views/movie/index'),
-        meta: { title: '电影信息', icon: 'movie', roles: ['editor'] }
+        meta: { title: '电影信息', icon: 'movie' }
+      },
+
+      {
+        path: 'detail',
+        name: 'MovieDetail',
+        component: () => import('@/views/movie/detail'),
+        meta: { title: '电影详情', icon: 'movie' }
       }
     ]
   },
