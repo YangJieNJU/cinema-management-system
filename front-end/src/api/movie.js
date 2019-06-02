@@ -6,3 +6,10 @@ export function getAll() {
     method: 'get'
   })
 }
+
+export function getMovie(movieId, userId) {
+  return request({
+    url: `/movie/${movieId}/${userId}`,
+    method: 'get'
+  })
+}
