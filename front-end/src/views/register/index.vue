@@ -179,7 +179,7 @@ export default {
           this.loading = true
           this.$store.dispatch('user/register', this.registerForm)
             .then(() => {
-              this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+              this.$router.push({ path: '/login' })
               this.loading = false
             })
             .catch((error) => {

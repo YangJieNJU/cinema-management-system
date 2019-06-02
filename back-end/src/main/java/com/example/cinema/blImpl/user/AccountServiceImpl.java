@@ -26,7 +26,8 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             return ResponseVO.buildFailure(ACCOUNT_EXIST);
         }
-        return ResponseVO.buildSuccess();
+        User user = accountMapper.getAccountByName(userForm.getUsername());
+        return ResponseVO.buildSuccess(user.getId());
     }
 
     @Override

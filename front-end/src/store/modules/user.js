@@ -45,9 +45,9 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       register({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        // const { content: data } = response
+        // commit('SET_TOKEN', data)
+        // setToken(data)
         resolve()
       }).catch(error => {
         reject(error)

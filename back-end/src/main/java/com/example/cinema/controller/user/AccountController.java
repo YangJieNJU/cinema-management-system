@@ -31,6 +31,7 @@ public class AccountController {
     }
 
     @GetMapping("/getInfo")
+    @ResponseBody
     public ResponseVO getInfo(@RequestParam(value="token") Integer userId) {
         UserVO user = accountService.getUserInfo(userId);
         user.setRoles(null);
@@ -42,9 +43,9 @@ public class AccountController {
     }
 
     @PostMapping("/logout")
-    public String logOut(HttpSession session){
+    public ResponseVO logOut(HttpSession session){
         session.removeAttribute(InterceptorConfiguration.SESSION_KEY);
-        return "index";
+        return ResponseVO.buildSuccess("index");
     }
 
     @GetMapping("/user/get/{id}")
