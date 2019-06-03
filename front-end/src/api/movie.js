@@ -18,7 +18,7 @@ export function likeMovie(movieId, data) {
   return request({
     url: `/movie/${movieId}/like`,
     method: 'post',
-    data
+    params: data
   })
 }
 
@@ -26,6 +26,6 @@ export function unlikeMovie(movieId, data) {
   return request({
     url: `/movie/${movieId}/unlike`,
     method: 'post',
-    data
+    params: data
   })
 }
