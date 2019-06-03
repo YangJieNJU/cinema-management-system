@@ -13,3 +13,19 @@ export function getMovie(movieId, userId) {
     method: 'get'
   })
 }
+
+export function likeMovie(movieId, data) {
+  return request({
+    url: `/movie/${movieId}/like`,
+    method: 'post',
+    data
+  })
+}
+
+export function unlikeMovie(movieId, data) {
+  return request({
+    url: `/movie/${movieId}/unlike`,
+    method: 'post',
+    data
+  })
+}

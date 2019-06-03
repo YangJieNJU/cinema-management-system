@@ -44,11 +44,11 @@ public class MovieController {
 
 
     @RequestMapping(value = "/movie/{movieId}/like", method = RequestMethod.POST)
-    public ResponseVO likeMovie(@PathVariable int movieId,@RequestParam int userId){
+    public ResponseVO likeMovie(@PathVariable int movieId,@RequestParam(value="userId") Integer userId){
         return movieLikeService.likeMovie(userId,movieId);
     }
     @RequestMapping(value = "/movie/{movieId}/unlike", method = RequestMethod.POST)
-    public ResponseVO unlikeMovie(@PathVariable int movieId,@RequestParam int userId){
+    public ResponseVO unlikeMovie(@PathVariable int movieId,@RequestParam(value="userId") Integer userId){
         return movieLikeService.unLikeMovie(userId,movieId);
     }
     @RequestMapping(value = "/movie/{movieId}/like/count", method = RequestMethod.GET)

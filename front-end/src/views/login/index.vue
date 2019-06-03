@@ -138,16 +138,6 @@ export default {
       })
     },
     handleLogin() {
-      // console.log(this.loginForm)
-      // const path = 'http://localhost:8080/login'
-      // axios.post(path, this.loginForm)
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-          
-      //   })
-
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
