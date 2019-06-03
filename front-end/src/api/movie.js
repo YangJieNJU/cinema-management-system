@@ -29,3 +29,11 @@ export function unlikeMovie(movieId, data) {
     params: data
   })
 }
+
+export function getSchedue(data) {
+  return request({
+    url: `/schedule/search/audience`,
+    method: 'get',
+    params: data
+  })
+}

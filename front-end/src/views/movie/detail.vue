@@ -1,4 +1,5 @@
 <template>
+<div>
   <el-card :body-style="{ padding: '0px' }">
     <el-container>
       <el-aside
@@ -54,73 +55,107 @@
               <el-col :span="24"> </el-col>
             </el-row>
             <el-row style="height: 100%">
-              <el-button :type="this.movie.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.movie.islike == 0 ? '想看' : '已想看'}}</el-button>
+              <el-button :type="this.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.islike == 0 ? '想看' : '已想看'}}</el-button>
             </el-row>
           </el-footer>
         </el-container>
       </el-main>
     </el-container>
   </el-card>
-
-
-
+  <el-table
+      :data="schedueData"
+      style="width: 100%">
+      <el-table-column
+        prop="startTime"
+        label="放映开始时间">
+      </el-table-column>
+      <el-table-column
+        prop="endTime"
+        label="放映结束时间">
+      </el-table-column>
+      <el-table-column
+        prop="hallName"
+        label="放映厅">
+      </el-table-column>
+      <el-table-column
+        prop="hallName"
+        label="票价（元）">
+      </el-table-column>
+      <el-table-column label="选座购票"  align="center">
+        <template slot-scope="scope">
+          <el-button type="text" @click.native.prevent="buyTicket(scope.row.id)">选座购票</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
-import { getMovie, likeMovie, unlikeMovie } from '@/api/movie'
+import { getMovie, likeMovie, unlikeMovie, getSchedue } from '@/api/movie'
 
 export default {
   data() {
     return {
       movieId: null,
       userId: null,
-      movie: null
+      movie: null,
+      schedueData: null
     }
   },
   created() {
     this.movieId = this.$route.query.movieId
     this.userId = this.$store.state.user.token
     this.fetchMovie(this.movieId, this.userId)
+    this.fetchSchedue(this.movieId)
+  },
+  computed: {
+    islike: function() {
+      return this.movie.islike
+    }
   },
   methods: {
     fetchMovie: function(movieId, userId) {
       getMovie(movieId, userId).then(response => {
         const { content: movie } = response
         this.movie = movie
-        if (this.movie.country == null) {
-          this.movie.country = '未知'
-        }
-        if (this.movie.description == null) {
-          this.movie.description = '暂无简介'
-        }
-        if (this.movie.director == null) {
-          this.movie.director = '未知'
-        }
-        if (this.movie.language == null) {
-          this.movie.language = '未知'
-        }
-        if (this.movie.screenWriter == null) {
-          this.movie.screenWriter = '未知'
-        }
-        if (this.movie.starring == null) {
-          this.movie.starring = '未知'
-        }
-        if (this.movie.type == null) {
-          this.movie.type = '未知'
-        }
+        this.movie.country = this.movie.country || '未知'
+        this.movie.description = this.movie.description || '暂无简介'
+        this.movie.director = this.movie.director || '未知'
+        this.movie.language = this.movie.language || '未知'
+        this.movie.screenWriter = this.movie.screenWriter || '未知'
+        this.movie.starring = this.movie.starring || '未知'
+        this.movie.type = this.movie.type || '未知'
+      })
+    },
+    fetchSchedue: function(movieId) {
+      getSchedue({ 'movieId': parseInt(movieId) }).then(response => {
+        const { content: data } = response
+        const schedue0 = data[0]
+        const { scheduleItemList: scheduleItemList } = response
+        this.schedueData = schedue0.scheduleItemList
       })
     },
     handleLike() {
       if (this.movie.islike == 0) {
         likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
-          console.log(response)
+          this.movie.islike = 1
         })
       }
       else {
         unlikeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
-          console.log(response)
+          this.movie.islike = 0
         })
       }
+    },
+    buyTicket(id) {
+      console.log(id)
+      this.$router.push({
+        path: '/ticket',
+        query: {
+          movieId: this.movie.id,
+          scheduleId: id
+        }
+      })
     }
   }
 }
