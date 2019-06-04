@@ -1,71 +1,109 @@
 <template>
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      label="日期"
-      width="180">
-      <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="姓名"
-      width="180">
-      <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+  <div>
+  <el-button type="primary" icon="el-icon-circle-plus-outline" @click="dialogFormVisible = true">上架电影</el-button>
+  <el-dialog title="新增电影" :visible.sync="dialogFormVisible">
+    <el-form :model="newMovie" :rules="rules">
+    <el-form-item label="电影名称" prop="name" label-width="120px">
+      <el-input placeholder="请输入电影名称" v-model="newMovie.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="上映时间" prop="startDate" label-width="120px">
+      <el-input v-model="newMovie.startDate" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影海报" prop="postUrl" label-width="120px">
+      <el-input placeholder="填写外部URL" v-model="newMovie.postUrl" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="剧情介绍" label-width="120px">
+      <el-input placeholder="请输入剧情介绍" type="textarea" :rows="4" v-model="newMovie.description" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影类型" label-width="120px">
+      <el-input placeholder="电影类型" v-model="newMovie.type" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="片长（分钟）" label-width="120px">
+      <el-input placeholder="请输入电影片长" v-model="newMovie.length" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="国家/地区" label-width="120px">
+      <el-input placeholder="请输入电影国家/地区" v-model="newMovie.country" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影语言" label-width="120px">
+      <el-input placeholder="请输入电影语言" v-model="newMovie.language" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影编剧" label-width="120px">
+      <el-input placeholder="请输入电影编剧" v-model="newMovie.screenWriter" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影导演" label-width="120px">
+      <el-input placeholder="请输入电影导演" v-model="newMovie.director" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影主演" label-width="120px">
+      <el-input placeholder="请输入电影主演" v-model="newMovie.starring" autocomplete="off"></el-input>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取消</el-button>
+    <el-button type="primary" @click="onSubmit">确定</el-button>
+  </div>
+  </el-dialog>
+  </div>
+    <movie-information v-for="movie in movies" :key="movie.id" :movie="movie"></movie-information>
+  </div>
 </template>
 
 <script>
+import MovieInformation from '@/components/MovieInformation'
+import { getAll, addMovie } from '@/api/movie'
+
 export default {
+  components: {
+    'movie-information': MovieInformation
+  },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      movies: [],
+      newMovie: {
+        name: '',
+        startDate: '',
+        postUrl: '',
+        description: '',
+        type: '',
+        length: '',
+        country: '',
+        language: '',
+        screenWriter: '',
+        director: '',
+        starring: ''
+
+      },
+      dialogFormVisible: false,
+      rules: {
+        name: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ],
+        startDate: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ],
+        postUrl: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ]
+      }
     }
   },
+  created() {
+    this.getAllMovies()
+  },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row)
+    getAllMovies() {
+      getAll().then(response => {
+        const { content: movies } = response
+        this.movies = movies
+      }).catch(error => {
+        console.log(error)
+      })
     },
-    handleDelete(index, row) {
-      console.log(index, row)
+    onSubmit() {
+      addMovie(this.newMovie).then(response => {
+        console.log(this.newMovie)
+        this.dialogFormVisible = false
+      })
     }
   }
 }

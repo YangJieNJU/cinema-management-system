@@ -1,69 +1,127 @@
 <template>
-  <el-card class="father">
-    <div><img :src="movie.posterUrl" class="image"></div>
-    <div class="movie">
-      <div class="title">{{movie.name}}</div>
-      <div class="status">{{movie.status}}</div>
-      <div class="islike">{{movie.islike}}</div>
-      <div class="likeCount">{{movie.likeCount}}</div>
-      <div class="description">
-        <span class="overflow">{{ movie.description.length > 100 ? movie.description.slice(0, 100) + '...' : movie.description }}</span>
-        </div>
-      <div class="starring">{{movie.starring}}</div>
-      <div class="type">{{movie.type}}</div>
-      <div class="director">{{movie.director}}</div>
-    </div>
+  <el-card :body-style="{ padding: '0px' }">
+    <el-container>
+      <el-aside
+        style="width: 120px"
+        >
+        <el-image
+          :src="movie.posterUrl"
+          style="width: 100%; height: 100%"
+          fit="fill"
+          >
+        </el-image>
+      </el-aside>
+      <el-main
+        style="padding: 10px 20px 0px 20px"
+        class="main"
+        >
+        <el-container
+          style="padding: 0px"
+          >
+          <el-header
+            style="padding: 0px 5px 0px 0px; margin: 5px 0"
+            height="25px"
+            >
+            <el-row style="height: 100%" :gutter="20">
+              <el-col :span="4">
+                <el-link type="primary">
+                  <router-link :to="{ path: '/manage/detail', query: { movieId: movie.id }}">
+                    <span class="detail right-align">{{ movie.name }}</span>
+                  </router-link>
+                </el-link>
+              </el-col>
+              <el-col
+                :span="2"
+                >
+                <el-link
+                  :type="movie.status == 1 ? 'info' : 'danger'"
+                  >
+                  {{ movie.status == 1 ? '热映中' : '已下架' }}
+                </el-link>
+              </el-col>
+              <el-col :span="1" :offset="15">
+                <el-rate
+                  v-model="movie.islike"
+                  :max="1"
+                  disabled
+                  class="right-align max-heigth"
+                  >
+                </el-rate>
+              </el-col>
+              <el-col :span="2"> <span class="right-align">{{ movie.likeCount || 0 }}人想看</span></el-col>
+            </el-row>
+          </el-header>
+          <el-main
+            style="padding: 0px; margin: 5px 0"
+            >
+            <span class="movie-description">
+              {{ movie.description }}
+            </span>
+          </el-main>
+          <el-footer
+            style="padding: 0px; margin: 10px 0 0 0; width: 99%"
+            height="20px"
+          >
+            <el-row style="height: 100%">
+              <el-col :span="8"> 导演：{{ movie.director }}</el-col>
+              <el-col :span="14"> 主演：{{ movie.starring }}</el-col>
+              <el-col :span="2">
+                <router-link :to="{ path: '/manage/detail', query: { movieId: movie.id }}">
+                  <span class="detail right-align">详情</span>
+                </router-link>
+              </el-col>
+            </el-row>
+          </el-footer>
+        </el-container>
+      </el-main>
+    </el-container>
   </el-card>
 </template>
 
 <script>
 export default {
-  name: 'MovieInformation',
   props: {
     movie: {
       type: Object,
-      required: true
+      default: null
     }
   }
 }
 </script>
 
 <style scoped>
-  div {
-    margin: 3px 0;
-  }
-  .father {
-    position: relative;
-  }
-  .movie {
-    height: 100%;
-  }
-  .footer {
-    position: absolute;
-    bottom: 1%;
-  }
-  .width {
-    width: 50%;
-  }
-  .image {
-    width: 100%;
-    display: block;
-  }
-  .el-card {
-    width:100%;
-    height:100%;
-  }
-  .description {
-    font-family: monospace;
-    width: 100%;
-    color: grey;
-    height: 100%;
-  }
-  .overflow {
-    overflow-y: hidden;
-    text-overflow: ellipsis;
-  }
-  .title {
-    font-family:"微软雅黑";
-  }
+* {
+  font-size: 15px;
+}
+
+.el-card {
+  margin: 10px 20px 20px 10px;
+}
+
+.movie-description {
+  color: #666;
+  font-size: 14px;
+}
+
+.main {
+  position: relative;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+}
+
+.detail {
+  color: #409EFF;
+}
+
+.right-align {
+  float: right;
+}
+
+.max-height {
+  height: 100%;
+}
 </style>
+

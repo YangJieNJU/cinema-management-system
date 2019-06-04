@@ -102,6 +102,13 @@ export const asyncRoutes = [
         meta: { title: '电影管理', icon: 'movie', affix: true }
       },
       {
+        path: 'detail',
+        name: 'ManageMovieDetail',
+        component: () => import('@/views/manage/movie/detail'),
+        hidden: true,
+        meta: { title: '电影详情', icon: 'movie', affix: true }
+      },
+      {
         path: 'schedule',
         name: 'ManageSchedule',
         component: () => import('@/views/manage/schedule/index'),
