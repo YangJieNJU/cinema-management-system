@@ -100,17 +100,17 @@ export default {
     }
   },
   methods: {
-    handleLike() {
-      if (parseInt(this.movie.islike) === 0) {
-        likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
-          this.movie.islike = 1
-        })
-      } else {
-        unlikeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
-          this.movie.islike = 0
-        })
-      }
-    }
+    // handleLike() {
+    //   if (parseInt(this.movie.islike) === 0) {
+    //     likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
+    //       this.movie.islike = 1
+    //     })
+    //   } else {
+    //     unlikeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
+    //       this.movie.islike = 0
+    //     })
+    //   }
+    // }
   }
 }
 </script>
