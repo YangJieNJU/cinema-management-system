@@ -130,9 +130,12 @@ export default {
     fetchSchedue: function(movieId) {
       getSchedue({ 'movieId': parseInt(movieId) }).then(response => {
         const { content: data } = response
-        const schedue0 = data[0]
-        const { scheduleItemList: scheduleItemList } = response
-        this.schedueData = schedue0.scheduleItemList
+        for(const schedule of data) {
+          if(schedule.scheduleItemList.length > 0) {
+            this.schedueData = schedule.scheduleItemList
+            break;
+          }
+        }
       })
     },
     handleLike() {
@@ -140,8 +143,7 @@ export default {
         likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
           this.movie.islike = 1
         })
-      }
-      else {
+      } else {
         unlikeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
           this.movie.islike = 0
         })
@@ -150,7 +152,7 @@ export default {
     buyTicket(id) {
       console.log(id)
       this.$router.push({
-        path: '/ticket',
+        path: 'payment',
         query: {
           movieId: this.movie.id,
           scheduleId: id

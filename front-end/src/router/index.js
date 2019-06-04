@@ -146,6 +146,32 @@ export const asyncRoutes = [
         component: () => import('@/views/movie/detail'),
         hidden: true,
         meta: { title: '电影详情', icon: 'movie' }
+      },
+
+      {
+        path: 'payment',
+        name: 'Payment',
+        component: () => import('@/views/movie/payment'),
+        hidden: true,
+        redirect: 'payment/seat',
+        meta: { title: '选座购票', icon: 'movie' },
+        children: [
+          {
+            path: 'seat',
+            name: 'Seat',
+            component: () => import('@/views/movie/payment/seat')
+          },
+          {
+            path: 'order',
+            name: 'Order',
+            component: () => import('@/views/movie/payment/order')
+          },
+          {
+            path: 'success',
+            name: 'Success',
+            component: () => import('@/views/movie/payment/success')
+          }
+        ]
       }
     ]
   },
