@@ -10,8 +10,8 @@
     <el-form-item label="上映时间" prop="startDate" label-width="120px">
       <el-input v-model="newMovie.startDate" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item label="电影海报" prop="postUrl" label-width="120px">
-      <el-input placeholder="填写外部URL" v-model="newMovie.postUrl" autocomplete="off"></el-input>
+    <el-form-item label="电影海报" prop="posterUrl" label-width="120px">
+      <el-input placeholder="填写外部URL" v-model="newMovie.posterUrl" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="剧情介绍" label-width="120px">
       <el-input placeholder="请输入剧情介绍" type="textarea" :rows="4" v-model="newMovie.description" autocomplete="off"></el-input>
@@ -62,7 +62,7 @@ export default {
       newMovie: {
         name: '',
         startDate: '',
-        postUrl: '',
+        posterUrl: '',
         description: '',
         type: '',
         length: '',
@@ -71,7 +71,6 @@ export default {
         screenWriter: '',
         director: '',
         starring: ''
-
       },
       dialogFormVisible: false,
       rules: {
@@ -81,7 +80,7 @@ export default {
         startDate: [
           { required: true, message: '此项不能为空！', trigger: 'blur' }
         ],
-        postUrl: [
+        posterUrl: [
           { required: true, message: '此项不能为空！', trigger: 'blur' }
         ]
       }

@@ -26,10 +26,7 @@
               {{ this.movie.description }}
             </span>
           </el-main>
-          <el-footer
-            style="padding: 0px; margin: 10px 0 0 0; width: 99%"
-            height="20px"
-          >
+          <el-footer style="padding: 0px; margin: 10px 0 0 0; width: 99%" height="20px">
             <el-row style="height: 100%">
               <el-col :span="24"> 上映：{{ this.movie.startDate }}</el-col>
             </el-row>
@@ -54,9 +51,55 @@
             <el-row style="height: 100%">
               <el-col :span="24"> </el-col>
             </el-row>
-            <el-row style="height: 100%">
-              <el-button :type="this.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.islike == 0 ? '想看' : '已想看'}}</el-button>
-            </el-row>
+            <el-button type='success' icon='el-icon-edit' @click="dialogFormVisible = true">{{'修改'}}</el-button>   
+            <el-dialog title="修改电影" :visible.sync="dialogFormVisible">
+            <el-form :model="movie" :rules="rules">
+              <el-form-item label="电影名称" prop="name" label-width="120px">
+                <el-input placeholder="请输入电影名称" v-model="movie.name" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="上映时间" prop="startDate" label-width="120px">
+                <el-input v-model="movie.startDate" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影海报" prop="posterUrl" label-width="120px">
+                <el-input placeholder="填写外部URL" v-model="movie.posterUrl" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="剧情介绍" label-width="120px">
+                <el-input placeholder="请输入剧情介绍" type="textarea" :rows="4" v-model="movie.description" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影类型" label-width="120px">
+                <el-input placeholder="电影类型" v-model="movie.type" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="片长（分钟）" label-width="120px">
+                <el-input placeholder="请输入电影片长" v-model="movie.length" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="国家/地区" label-width="120px">
+                <el-input placeholder="请输入电影国家/地区" v-model="movie.country" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影语言" label-width="120px">
+                <el-input placeholder="请输入电影语言" v-model="movie.language" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影编剧" label-width="120px">
+                <el-input placeholder="请输入电影编剧" v-model="movie.screenWriter" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影导演" label-width="120px">
+                <el-input placeholder="请输入电影导演" v-model="movie.director" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="电影主演" label-width="120px">
+                <el-input placeholder="请输入电影主演" v-model="movie.starring" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取消</el-button>
+              <el-button type="primary" @click="onSubmit">确定</el-button>
+            </div>
+            </el-dialog>
+            <el-button type='danger' icon='el-icon-delete' @click="dialogFormVisible2 = true">{{'下架'}}</el-button>   
+            <el-dialog title="您确定要将电影下架吗？" :visible.sync="dialogFormVisible2">
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible2 = false">取消</el-button>
+              <el-button type="primary" @click="offBatch">确定</el-button>
+            </div>
+            </el-dialog>
           </el-footer>
         </el-container>
       </el-main>
@@ -81,17 +124,12 @@
         prop="hallName"
         label="票价（元）">
       </el-table-column>
-      <el-table-column label="选座购票"  align="center">
-        <template slot-scope="scope">
-          <el-button type="text" @click.native.prevent="buyTicket(scope.row.id)">选座购票</el-button>
-        </template>
-      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import { getMovie, likeMovie, unlikeMovie, getSchedue } from '@/api/movie'
+import { getMovie, likeMovie, unlikeMovie, getSchedue, updateMovie } from '@/api/movie'
 
 export default {
   data() {
@@ -99,7 +137,20 @@ export default {
       movieId: null,
       userId: null,
       movie: null,
-      schedueData: null
+      rules: {
+        name: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ],
+        startDate: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ],
+        posterUrl: [
+          { required: true, message: '此项不能为空！', trigger: 'blur' }
+        ]
+      },
+      schedueData: null,
+      dialogFormVisible: false,
+      dialogFormVisible2: false
     }
   },
   created() {
@@ -149,14 +200,19 @@ export default {
         })
       }
     },
-    buyTicket(id) {
-      console.log(id)
-      this.$router.push({
-        path: 'payment',
-        query: {
-          movieId: this.movie.id,
-          scheduleId: id
-        }
+    onSubmit() {
+      updateMovie(this.movie).then(response => {
+        console.log(this.movie)
+        this.dialogFormVisible = false
+      })
+    },
+    offBatch() {
+      updateMovie({ 'movieIdList': [this.movieId] }).then(response => {
+        console.log(this.movie)
+        this.dialogFormVisible = false
+        this.$router.push({
+        path: 'movie'
+      })
       })
     }
   }

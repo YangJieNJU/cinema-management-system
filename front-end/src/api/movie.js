@@ -22,6 +22,14 @@ export function addMovie(data) {
   })
 }
 
+export function updateMovie(data) {
+  return request({
+    url: '/movie/update',
+    method: 'post',
+    data
+  })
+}
+
 export function likeMovie(movieId, data) {
   return request({
     url: `/movie/${movieId}/like`,
