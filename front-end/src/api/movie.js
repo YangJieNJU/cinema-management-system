@@ -14,6 +14,14 @@ export function getMovie(movieId, userId) {
   })
 }
 
+export function addMovie(data) {
+  return request({
+    url: '/movie/add',
+    method: 'post',
+    data
+  })
+}
+
 export function likeMovie(movieId, data) {
   return request({
     url: `/movie/${movieId}/like`,

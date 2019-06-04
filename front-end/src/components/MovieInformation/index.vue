@@ -67,7 +67,6 @@
 import { likeMovie, unlikeMovie } from '@/api/movie'
 
 export default {
-  name: 'MovieInformation',
   props: {
     movie: {
       type: Object,
@@ -136,3 +135,4 @@ export default {
   height: 100%;
 }
 </style>
+
