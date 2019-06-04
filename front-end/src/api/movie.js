@@ -30,6 +30,14 @@ export function updateMovie(data) {
   })
 }
 
+export function offbatchMovie(data) {
+  return request({
+    url: '/movie/off/batch',
+    method: 'post',
+    data
+  })
+}
+
 export function likeMovie(movieId, data) {
   return request({
     url: `/movie/${movieId}/like`,

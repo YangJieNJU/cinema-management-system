@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import { getMovie, likeMovie, unlikeMovie, getSchedue, updateMovie } from '@/api/movie'
+import { getMovie, likeMovie, unlikeMovie, getSchedue, updateMovie, offbatchMovie } from '@/api/movie'
 
 export default {
   data() {
@@ -207,7 +207,8 @@ export default {
       })
     },
     offBatch() {
-      updateMovie({ 'movieIdList': [this.movieId] }).then(response => {
+      console.log(this.movie)
+      offbatchMovie({ 'movieIdList': [this.movieId] }).then(response => {
         console.log(this.movie)
         this.dialogFormVisible = false
         this.$router.push({
