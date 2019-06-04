@@ -59,6 +59,8 @@ public class TicketServiceImpl implements TicketService {
     		
     		i=0;
     		while(i<seats.size()) {
+    		    System.out.println(seats.get(i).getColumnIndex());
+    		    System.out.println(seats.get(i).getRowIndex());
     			ticket=new Ticket();
     			ticket.setUserId(userId);
     			ticket.setScheduleId(scheduleId);
