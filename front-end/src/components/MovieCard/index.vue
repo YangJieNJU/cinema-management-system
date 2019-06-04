@@ -25,7 +25,7 @@
             <el-row style="height: 100%" :gutter="20">
               <el-col :span="4">
                 <el-link type="primary">
-                  <router-link :to="{ path: '/movie/detail', query: { movieId: movie.id }}">
+                  <router-link :to="{ path: '/movie/payment', query: { movieId: movie.id }}">
                     <span class="detail right-align">{{ movie.name }}</span>
                   </router-link>
                 </el-link>
@@ -34,9 +34,9 @@
                 :span="2"
                 >
                 <el-link
-                  :type="movie.status == 1 ? 'info' : 'danger'"
+                  :type="movie.status == 0 ? 'info' : 'danger'"
                   >
-                  {{ movie.status == 1 ? '热映中' : '已下架' }}
+                  {{ movie.status == 0 ? '热映中' : '已下架' }}
                 </el-link>
               </el-col>
               <el-col :span="1" :offset="15">
@@ -66,7 +66,7 @@
               <el-col :span="8"> 导演：{{ movie.director }}</el-col>
               <el-col :span="14"> 主演：{{ movie.starring }}</el-col>
               <el-col :span="2">
-                <router-link :to="{ path: '/movie/detail', query: { movieId: movie.id }}">
+                <router-link :to="{ path: '/movie/payment', query: { movieId: movie.id }}">
                   <span class="detail right-align">详情</span>
                 </router-link>
               </el-col>

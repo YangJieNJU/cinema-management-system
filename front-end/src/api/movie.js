@@ -53,3 +53,10 @@ export function getSchedue(data) {
     params: data
   })
 }
+
+export function getScheduleById(id) {
+  return request({
+    url: `/schedule/${id}`,
+    method: 'get'
+  })
+}

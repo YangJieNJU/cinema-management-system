@@ -148,35 +148,44 @@ export const asyncRoutes = [
       },
 
       {
-        path: 'detail',
-        name: 'MovieDetail',
-        component: () => import('@/views/movie/detail'),
-        hidden: true,
-        meta: { title: '电影详情', icon: 'movie' }
-      },
-
-      {
         path: 'payment',
         name: 'Payment',
         component: () => import('@/views/movie/payment'),
         hidden: true,
-        redirect: 'payment/seat',
-        meta: { title: '选座购票', icon: 'movie' },
+        redirect: 'payment/schedule',
+        meta: { title: '选座购票', icon: 'movie', keepAlive: true },
         children: [
+          {
+            path: 'schedule',
+            name: 'Schedule',
+            component: () => import('@/views/movie/payment/schedule'),
+            meta: {
+              keepAlive: true
+            }
+          },
           {
             path: 'seat',
             name: 'Seat',
-            component: () => import('@/views/movie/payment/seat')
+            component: () => import('@/views/movie/payment/seat'),
+            meta: {
+              keepAlive: true
+            }
           },
           {
             path: 'order',
             name: 'Order',
-            component: () => import('@/views/movie/payment/order')
+            component: () => import('@/views/movie/payment/order'),
+            meta: {
+              keepAlive: true
+            }
           },
           {
             path: 'success',
             name: 'Success',
-            component: () => import('@/views/movie/payment/success')
+            component: () => import('@/views/movie/payment/success'),
+            meta: {
+              keepAlive: true
+            }
           }
         ]
       }
@@ -193,20 +202,6 @@ export const asyncRoutes = [
         name: 'Ticket',
         component: () => import('@/views/ticket/index'),
         meta: { title: '我的电影票', icon: 'ticket', roles: ['editor'] }
-      }
-    ]
-  },
-
-  {
-    path: '/member',
-    component: Layout,
-    redirect: '/member/index',
-    children: [
-      {
-        path: 'index',
-        name: 'Member',
-        component: () => import('@/views/member/index'),
-        meta: { title: '我的卡包', icon: 'member', roles: ['editor'] }
       }
     ]
   },

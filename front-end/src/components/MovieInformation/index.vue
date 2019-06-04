@@ -2,60 +2,27 @@
   <el-card :body-style="{ padding: '0px' }">
     <el-container>
       <el-aside
-        style="width: 120px"
+        style="width: 200px"
         >
         <el-image
-          :src="movie.posterUrl"
+          :src="this.movie.posterUrl"
           style="width: 100%; height: 100%"
           fit="fill"
           >
         </el-image>
       </el-aside>
       <el-main
-        style="padding: 10px 20px 0px 20px"
+        style="padding: 10px 20px 200px 20px"
         class="main"
         >
         <el-container
           style="padding: 0px"
           >
-          <el-header
-            style="padding: 0px 5px 0px 0px; margin: 5px 0"
-            height="25px"
-            >
-            <el-row style="height: 100%" :gutter="20">
-              <el-col :span="4">
-                <el-link type="primary">
-                  <router-link :to="{ path: '/manage/detail', query: { movieId: movie.id }}">
-                    <span class="detail right-align">{{ movie.name }}</span>
-                  </router-link>
-                </el-link>
-              </el-col>
-              <el-col
-                :span="2"
-                >
-                <el-link
-                  :type="movie.status == 1 ? 'info' : 'danger'"
-                  >
-                  {{ movie.status == 1 ? '热映中' : '已下架' }}
-                </el-link>
-              </el-col>
-              <el-col :span="1" :offset="15">
-                <el-rate
-                  v-model="movie.islike"
-                  :max="1"
-                  disabled
-                  class="right-align max-heigth"
-                  >
-                </el-rate>
-              </el-col>
-              <el-col :span="2"> <span class="right-align">{{ movie.likeCount || 0 }}人想看</span></el-col>
-            </el-row>
-          </el-header>
           <el-main
             style="padding: 0px; margin: 5px 0"
             >
             <span class="movie-description">
-              {{ movie.description }}
+              {{ this.movie.description }}
             </span>
           </el-main>
           <el-footer
@@ -63,27 +30,71 @@
             height="20px"
           >
             <el-row style="height: 100%">
-              <el-col :span="8"> 导演：{{ movie.director }}</el-col>
-              <el-col :span="14"> 主演：{{ movie.starring }}</el-col>
-              <el-col :span="2">
-                <router-link :to="{ path: '/manage/detail', query: { movieId: movie.id }}">
-                  <span class="detail right-align">详情</span>
-                </router-link>
-              </el-col>
+              <el-col :span="24"> 上映：{{ `${this.movie.startDate.split('T')[0]} ${this.movie.startDate.split('T')[1].split('\.')[0]}` }}</el-col>
             </el-row>
-          </el-footer>
-        </el-container>
-      </el-main>
-    </el-container>
-  </el-card>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 类型：{{ this.movie.type }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 地区：{{ this.movie.country }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 语言：{{ this.movie.language }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 导演：{{ this.movie.director }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 主演：{{ this.movie.starring }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> 编剧：{{ this.movie.screenWriter }}</el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-col :span="24"> </el-col>
+            </el-row>
+            <el-row style="height: 100%">
+              <el-button :type="this.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.islike == 0 ? '想看' : '不想看'}}</el-button>
+            </el-row>
+            </el-footer>
+          </el-container>
+        </el-main>
+      </el-container>
+    </el-card>
 </template>
 
 <script>
+import { likeMovie, unlikeMovie } from '@/api/movie'
+
 export default {
   props: {
     movie: {
       type: Object,
-      default: null
+      required: true
+    },
+    movieId: {
+      required: true
+    },
+    userId: {
+      required: true
+    }
+  },
+  computed: {
+    islike: function() {
+      return this.movie.islike
+    }
+  },
+  methods: {
+    handleLike() {
+      if (parseInt(this.movie.islike) === 0) {
+        likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
+          this.movie.islike = 1
+        })
+      } else {
+        unlikeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
+          this.movie.islike = 0
+        })
+      }
     }
   }
 }
