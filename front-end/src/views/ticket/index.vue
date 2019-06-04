@@ -21,41 +21,7 @@ export default {
       schedules: new Array(),
       movies: new Array(),
       formatted: [],
-      tickets: [
-        {
-          movieName: '黄金时代',
-          hall: 'max巨幕厅',
-          price: '30',
-          seat: '二排一座',
-          time: '2019.5.18',
-          posterUrl: 'http://hbimg.b0.upaiyun.com/07b3b8977763bedc8b6b2d3bcdd36defdcb00c1da4e7-WhZGy4_fw658',
-          status: '已完成',
-          startTime: '20:00:00',
-          endTime: '22:00:00'
-        },
-        {
-          movieName: '黄金时代',
-          hall: 'max巨幕厅',
-          price: '30',
-          seat: '二排一座',
-          time: '2019.5.18',
-          posterUrl: 'http://hbimg.b0.upaiyun.com/07b3b8977763bedc8b6b2d3bcdd36defdcb00c1da4e7-WhZGy4_fw658',
-          status: '已完成',
-          startTime: '20:00:00',
-          endTime: '22:00:00'
-        },
-        {
-          movieName: '黄金时代',
-          hall: 'max巨幕厅',
-          price: '30',
-          seat: '二排一座',
-          time: '2019.5.18',
-          posterUrl: 'http://hbimg.b0.upaiyun.com/07b3b8977763bedc8b6b2d3bcdd36defdcb00c1da4e7-WhZGy4_fw658',
-          status: '已完成',
-          startTime: '20:00:00',
-          endTime: '22:00:00'
-        }
-      ]
+      tickets: []
     }
   },
   created() {
