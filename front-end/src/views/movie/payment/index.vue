@@ -54,7 +54,7 @@
               <el-col :span="24"> </el-col>
             </el-row>
             <el-row style="height: 100%">
-              <el-button :type="this.movie.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.movie.islike == 0 ? '想看' : '不想看'}}</el-button>
+              <el-button :type="this.movie.islike == 0 ? 'warning' : 'danger'" :icon="this.movie.islike == 0 ? 'el-icon-star-off' : 'el-icon-star-on'" @click.native.prevent="handleLike">{{this.movie.islike == 0 ? '收藏' : '已收藏'}}</el-button>
             </el-row>
           </el-footer>
         </el-container>
