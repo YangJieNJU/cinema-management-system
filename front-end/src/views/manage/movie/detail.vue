@@ -121,7 +121,7 @@
         label="放映厅">
       </el-table-column>
       <el-table-column
-        prop="hallName"
+        prop="fare"
         label="票价（元）">
       </el-table-column>
     </el-table>
@@ -181,12 +181,7 @@ export default {
     fetchSchedue: function(movieId) {
       getSchedue({ 'movieId': parseInt(movieId) }).then(response => {
         const { content: data } = response
-        for (const schedule of data) {
-          if (schedule.scheduleItemList.length > 0) {
-            this.schedueData = schedule.scheduleItemList
-            break;
-          }
-        }
+        this.schedueData = data.map(x => x.scheduleItemList).reduce((res, scheduleItemList) => res.concat(scheduleItemList))
       })
     },
     handleLike() {

@@ -62,9 +62,25 @@ export function getSchedue(data) {
   })
 }
 
+export function getAllSchedue(data) {
+  return request({
+    url: `/schedule/search`,
+    method: 'get',
+    params: data
+  })
+}
+
 export function getScheduleById(id) {
   return request({
     url: `/schedule/${id}`,
     method: 'get'
+  })
+}
+
+export function addSchedule(data) {
+  return request({
+    url: '/schedule/add',
+    method: 'post',
+    data
   })
 }

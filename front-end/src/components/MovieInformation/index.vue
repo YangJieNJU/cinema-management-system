@@ -25,7 +25,7 @@
             <el-row style="height: 100%" :gutter="20">
               <el-col :span="4">
                 <el-link type="primary">
-                  <router-link :to="{ path: '/movie/payment', query: { movieId: movie.id }}">
+                  <router-link :to="{ path: '/manage/detail', query: { movieId: movie.id }}">
                     <span class="detail right-align">{{ movie.name }}</span>
                   </router-link>
                 </el-link>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { likeMovie, unlikeMovie } from '@/api/movie'
+// import { likeMovie, unlikeMovie } from '@/api/movie'
 
 export default {
   props: {

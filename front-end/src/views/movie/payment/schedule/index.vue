@@ -66,12 +66,7 @@ export default {
     fetchSchedue: function(movieId) {
       getSchedue({ 'movieId': parseInt(movieId) }).then(response => {
         const { content: data } = response
-        for (const schedule of data) {
-          if (schedule.scheduleItemList.length > 0) {
-            this.schedueData = schedule.scheduleItemList
-            break
-          }
-        }
+        this.schedueData = data.map(x => x.scheduleItemList).reduce((res, scheduleItemList) => res.concat(scheduleItemList))
       })
     },
     handleLike() {
