@@ -151,6 +151,7 @@ export default {
       addSchedule(this.aSchedule).then(response => {
         console.log(this.aSchedule)
         this.dialogFormVisible = false
+        this.fetchSchedue()
       })
     }
   }
