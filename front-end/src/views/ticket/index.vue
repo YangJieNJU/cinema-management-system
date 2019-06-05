@@ -92,7 +92,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .el-main{
   margin: 0 12%;
 }
