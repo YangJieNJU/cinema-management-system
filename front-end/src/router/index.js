@@ -128,7 +128,8 @@ export const asyncRoutes = [
         component: () => import('@/views/statistics/index'),
         meta: { title: '信息统计', icon: 'statistics', roles: ['admin'] }
       }
-    ]
+    ],
+    hidden: true
   },
 
   {
