@@ -30,7 +30,7 @@
           </el-main>
           <el-footer style="padding: 0px; margin: 10px 0 0 0; width: 99%" height="20px">
             <el-row style="height: 100%">
-              <el-col :span="24"> 上映：{{ this.movie.startDate }}</el-col>
+              <el-col :span="24"> 上映：{{ formatStartTime }}</el-col>
             </el-row>
             <el-row style="height: 100%">
               <el-col :span="24"> 类型：{{ this.movie.type }}</el-col>
@@ -78,6 +78,7 @@
 <script>
 import { getMovie, likeMovie, unlikeMovie } from '@/api/movie'
 import MovieInformation from '@/components/MovieInformation'
+import { formatTime } from '@/utils/format'
 
 export default {
   components: {
@@ -103,6 +104,9 @@ export default {
       } else if (this.$route.path === '/movie/payment/order') {
         return 3
       } else { return 4 }
+    },
+    formatStartTime: function () {
+      return formatTime(this.movie.startDate)
     }
   },
   created() {

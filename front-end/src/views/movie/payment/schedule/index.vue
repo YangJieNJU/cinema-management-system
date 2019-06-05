@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="schedueData"
+    :data="schedules"
     style="width: 90%; margin: 0 5%">
     <el-table-column
       prop="startTime"
@@ -28,6 +28,7 @@
 
 <script>
 import { getMovie, likeMovie, unlikeMovie, getSchedue } from '@/api/movie'
+import { formatTime } from '@/utils/format'
 
 export default {
   data() {
@@ -47,6 +48,16 @@ export default {
   computed: {
     islike: function() {
       return this.movie.islike
+    },
+    schedules: function() {
+      if (this.schedueData == null) {
+        return []
+      }
+      return this.schedueData.map(x => {
+        x.startTime = formatTime(x.startTime)
+        x.endTime = formatTime(x.endTime)
+        return x
+      })
     }
   },
   methods: {

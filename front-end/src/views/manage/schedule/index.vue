@@ -43,7 +43,7 @@
   </el-form-item>
 </el-form>
   <el-table
-      :data="schedueData"
+      :data="schedules"
       style="width: 100%">
       <el-table-column
         prop="startTime"
@@ -66,11 +66,13 @@
         label="票价（元）">
       </el-table-column>
     </el-table>
+    <div style="display: none">{{ watchHallId }}</div>
   </div>
 </template>
 
 <script>
 import { getAllSchedue, addSchedule } from '@/api/movie'
+import { formatTime } from '@/utils/format'
 
 export default {
   data() {
@@ -116,9 +118,26 @@ export default {
     // this.fetchMovie(this.movieId, this.userId)
     this.fetchSchedue()
   },
+  computed: {
+    schedules: function() {
+      if (!this.schedueData) {
+        return []
+      }
+      console.log(JSON.stringify(this.schedueData))
+      return this.schedueData.map(x => {
+        x.startTime = formatTime(x.startTime)
+        x.endTime = formatTime(x.endTime)
+        return x
+      })
+    },
+    watchHallId: function() {
+      this.fetchSchedue()
+      return this.aSchedule.hallId
+    }
+  },
   methods: {
     fetchSchedue: function() {
-      getAllSchedue({ 'hallId': parseInt(this.hallId), 'startDate': this.chooseDate }).then(response => {
+      getAllSchedue({ 'hallId': parseInt(this.aSchedule.hallId), 'startDate': this.chooseDate }).then(response => {
         const { content: data } = response
         this.schedueData = data.map(x => x.scheduleItemList).reduce((res, scheduleItemList) => res.concat(scheduleItemList))
       })

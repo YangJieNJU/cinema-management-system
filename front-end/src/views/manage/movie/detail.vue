@@ -28,7 +28,7 @@
           </el-main>
           <el-footer style="padding: 0px; margin: 10px 0 0 0; width: 99%" height="20px">
             <el-row style="height: 100%">
-              <el-col :span="24"> 上映：{{ this.movie.startDate }}</el-col>
+              <el-col :span="24"> 上映：{{ this.formatStartTime }}</el-col>
             </el-row>
             <el-row style="height: 100%">
               <el-col :span="24"> 类型：{{ this.movie.type }}</el-col>
@@ -51,7 +51,7 @@
             <el-row style="height: 100%">
               <el-col :span="24"> </el-col>
             </el-row>
-            <el-button type='success' icon='el-icon-edit' @click="dialogFormVisible = true">{{'修改'}}</el-button>   
+            <el-button type='success' icon='el-icon-edit' @click="dialogFormVisible = true">{{'修改'}}</el-button>
             <el-dialog title="修改电影" :visible.sync="dialogFormVisible">
             <el-form :model="movie" :rules="rules">
               <el-form-item label="电影名称" prop="name" label-width="120px">
@@ -93,7 +93,7 @@
               <el-button type="primary" @click="onSubmit">确定</el-button>
             </div>
             </el-dialog>
-            <el-button type='danger' icon='el-icon-delete' @click="dialogFormVisible2 = true">{{'下架'}}</el-button>   
+            <el-button type='danger' icon='el-icon-delete' @click="dialogFormVisible2 = true">{{'下架'}}</el-button>
             <el-dialog title="您确定要将电影下架吗？" :visible.sync="dialogFormVisible2">
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible2 = false">取消</el-button>
@@ -106,7 +106,7 @@
     </el-container>
   </el-card>
   <el-table
-      :data="schedueData"
+      :data="schedules"
       style="width: 100%">
       <el-table-column
         prop="startTime"
@@ -130,6 +130,7 @@
 
 <script>
 import { getMovie, likeMovie, unlikeMovie, getSchedue, updateMovie, offbatchMovie } from '@/api/movie'
+import { formatTime } from '@/utils/format'
 
 export default {
   data() {
@@ -163,6 +164,19 @@ export default {
   computed: {
     islike: function() {
       return this.movie.islike
+    },
+    formatStartTime: function() {
+      return formatTime(this.movie.startDate)
+    },
+    schedules: function() {
+      if (this.schedueData == null) {
+        return []
+      }
+      return this.schedueData.map(x => {
+        x.startTime = formatTime(x.startTime)
+        x.endTime = formatTime(x.endTime)
+        return x
+      })
     }
   },
   methods: {
@@ -187,7 +201,7 @@ export default {
       })
     },
     handleLike() {
-      if (this.movie.islike == 0) {
+      if (parseInt(this.movie.islike) === 0) {
         likeMovie(this.movieId, { 'userId': parseInt(this.userId) }).then(response => {
           this.movie.islike = 1
         })
@@ -209,8 +223,8 @@ export default {
         console.log(this.movie)
         this.dialogFormVisible = false
         this.$router.push({
-        path: 'movie'
-      })
+          path: 'movie'
+        })
       })
     }
   }
