@@ -3,7 +3,7 @@
     <div v-if="$route.meta.keepAlive">
       <keep-alive>
         <el-card :body-style="{ padding: '0px' }">
-    <el-container>
+    <el-container v-if="loading">
       <el-aside
         style="width: 200px"
         >
@@ -87,7 +87,8 @@ export default {
     return {
       movieId: null,
       userId: null,
-      movie: null
+      movie: null,
+      loading: false
     }
   },
   computed: {
@@ -121,6 +122,7 @@ export default {
         this.movie.screenWriter = this.movie.screenWriter || '未知'
         this.movie.starring = this.movie.starring || '未知'
         this.movie.type = this.movie.type || '未知'
+        this.loading = true
       })
     },
     buyTicket(id) {

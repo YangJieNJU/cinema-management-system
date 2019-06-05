@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-card :body-style="{ padding: '0px' }">
+  <el-card :body-style="{ padding: '0px' }" v-if="loading">
     <el-container>
       <el-aside
         style="width: 200px"
@@ -150,7 +150,8 @@ export default {
       },
       schedueData: null,
       dialogFormVisible: false,
-      dialogFormVisible2: false
+      dialogFormVisible2: false,
+      loading: false
     }
   },
   created() {
@@ -176,6 +177,7 @@ export default {
         this.movie.screenWriter = this.movie.screenWriter || '未知'
         this.movie.starring = this.movie.starring || '未知'
         this.movie.type = this.movie.type || '未知'
+        this.loading = true
       })
     },
     fetchSchedue: function(movieId) {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loading">
     <el-container :direction="'vertical'">
       <el-main>
         <el-table
@@ -48,7 +48,8 @@ export default {
       seats: null,
       tickets: null,
       colWidth: '300px',
-      schedule: null
+      schedule: null,
+      loading: false
     }
   },
   created() {
@@ -89,7 +90,8 @@ export default {
         seats: this.seats
       }).then(response => {
         const { content: tickets } = response
-        this.tickets = tickets
+        this.tickets = tickets,
+        this.loading = true
       }).catch(err => {
         console.log(err)
       })

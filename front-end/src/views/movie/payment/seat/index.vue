@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loading">
     <el-card style="margin: 2% 5% 0 5%">
       <el-container>
         <el-main style="width: 200px">
@@ -62,7 +62,8 @@ export default {
       movieId: null,
       scheduleId: null,
       seats: null,
-      scheduleItem: null
+      scheduleItem: null,
+      loading: false
     }
   },
   computed: {
@@ -120,7 +121,7 @@ export default {
         const { content: info } = response
         this.seats = info.seats
         this.scheduleItem = info.scheduleItem
-        this.$route.push
+        this.loading = true
       }).catch(err => {
         console.log(err)
       })
