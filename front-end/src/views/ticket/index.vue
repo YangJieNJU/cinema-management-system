@@ -1,5 +1,5 @@
 <template>
-  <el-main>
+  <el-main v-if="loading">
     <el-row v-for="(ticket, i) in formatted" :key="i" style="margin: 20px 0">
         <ticket-card :ticket="ticket"></ticket-card>
     </el-row>
@@ -21,7 +21,8 @@ export default {
       schedules: [],
       movies: [],
       formatted: [],
-      tickets: []
+      tickets: [],
+      loading: false
     }
   },
   created() {
@@ -34,7 +35,6 @@ export default {
         const { content: data } = response
         this.tickets = data
         this.getSchedules()
-        console.log(this.formatTickets)
       }).catch(err => console.log(err))
     },
     getSchedules() {
@@ -45,6 +45,9 @@ export default {
       Promise.all(scheduleRequests).then(res => {
         for (let i = 0; i < res.length; ++i) {
           const schedule = res[i].content
+          if (!schedule) {
+            continue
+          }
           this.schedules[schedule.id] = schedule
         }
         this.getMovies()
@@ -63,6 +66,7 @@ export default {
           this.movies[movie.id] = movie
         }
         this.formatTickets()
+        this.loading = true
       }).catch(err => console.log(err))
     },
     formatTime(dateTime) {
