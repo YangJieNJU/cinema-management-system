@@ -8,7 +8,10 @@
       <el-input placeholder="请输入电影名称" v-model="newMovie.name" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="上映时间" prop="startDate" label-width="120px">
-      <el-input v-model="newMovie.startDate" autocomplete="off"></el-input>
+      <div class="block">
+        <span class="demonstration"></span>
+          <el-date-picker v-model="newMovie.startDate" type="datetime" placeholder="选择日期时间"></el-date-picker>
+  </div>
     </el-form-item>
     <el-form-item label="电影海报" prop="posterUrl" label-width="120px">
       <el-input placeholder="填写外部URL" v-model="newMovie.posterUrl" autocomplete="off"></el-input>
